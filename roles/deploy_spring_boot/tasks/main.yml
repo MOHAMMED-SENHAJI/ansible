@@ -1,0 +1,29 @@
+---
+- name: Java installation
+  become: true
+  package:
+    name: openjdk-17-jdk
+    state: present
+
+- name: Copy Spring Boot JAR file
+  copy:
+    src: "../target/chat-1.jar"
+    dest: /opt/my_spring_boot_app.jar
+
+- name: Stop Spring Boot application
+  become: true
+  systemd:
+    name: my-spring-boot-app
+    state: stopped
+  ignore_errors: yes
+
+- name: Start Spring Boot application
+  become: true
+  systemd:
+    name: my-spring-boot-app
+    state: started
+    enabled: yes
+  environment:
+    JAVA_HOME: "/usr/lib/jvm/java-17-openjdk-amd64"
+    SPRING_PROFILES_ACTIVE: "production"
+    SPRING_CONFIG_LOCATION: "/src/main/resources/application.properties"

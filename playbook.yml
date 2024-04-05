@@ -1,0 +1,9 @@
+- hosts: web_servers
+  become: true
+  roles:
+    - deploy_spring_boot
+
+- hosts: db_servers
+  become: true
+  roles:
+    - deploy_database

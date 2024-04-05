@@ -1,0 +1,17 @@
+---
+- name: Install MySQL Server
+  become: true
+  package:
+    name: mysql-server
+    state: present
+
+- name: Start MySQL Service
+  become: true
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: Secure MySQL Installation
+  become: true
+  shell: mysql_secure_installation
